@@ -53,7 +53,7 @@ SensorFusionAlgo
 
 ## Visual representation of the schematic design
 
-![SensorFusionAlgo](https://github.com/flexplicateur/PerfectSense/blob/master/doc/architecture.png?raw=true "PerfectSense Architecture")
+![SensorFusionAlgo](https://github.com/shreyataneja/SensorFusionAlgo/blob/master/doc/SensorFusionAlgoDesign.jpg "SensorFusionAlgo")
 
 ## Description of the architecture
 
