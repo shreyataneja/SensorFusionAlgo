@@ -1,9 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include "../include/file_operations.h"
 
-int main() {
+int main(int argc, char ** argv) {
 
-    
+    if (argc < 2) {
+       printf("Wrong parameters entered. The program must be invoked as follow:");
+       printf (" path of the input file %s",argv[0]  );
+        return 1; 
+    }
+  
+    char * i_input =  argv[1];
+	printf (" Input file is : %s",i_input  );
+	read_from_file(i_input);
 	
+	//write_to_output_file(i_input);
 	return 0;
 	}
