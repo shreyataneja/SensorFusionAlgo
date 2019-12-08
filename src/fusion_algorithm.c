@@ -49,7 +49,7 @@ void eign_value_vector_generation(double **degreematrix,sensor sensor_data[], in
         { //data[k++]=*((degreematrix+i*size) + j);
 		data[k++]= degreematrix[i][j];
 		// printf("data %lf",data[--k]);
-           printf("i:%d j:%d degreematrix:%lf\n",i,j,degreematrix[i][j]);
+        //   printf("i:%d j:%d degreematrix:%lf\n",i,j,degreematrix[i][j]);
         }
     }
 	gsl_matrix_view m   = gsl_matrix_view_array(data, size, size);
@@ -115,8 +115,8 @@ void eign_value_vector_generation(double **degreematrix,sensor sensor_data[], in
 		
 			for (i = 0;  i < size; i++){
 				for (j = 0; j < size; j++){
-					printf("Principal compnent %d    %d :  %g\t",i,j, principal_component[i][j]);
-					printf("\n");
+					printf("Principal compnent %d    %d :  %g\n\t",i,j, principal_component[i][j]);
+				//	printf("\n");
 				}
 			}
 		cal_contribution_rate(arr_eigenvalue,principal_component,sensor_data,size);
@@ -219,3 +219,4 @@ void calc_threshold(double integrated_support_degree[] , double sum_integrated_s
 	printf(" Threshold: %lf \t\n", X_Thresh);	
 	detect_out_of_range_sensor(integrated_support_degree,sum_integrated_support_degree,sensor_data,size,X_Thresh);
 }
+

@@ -8,8 +8,8 @@
 #define LSIZ 500
 #define RSIZ 1000
 #define LINESTRUCT 500
-
 char *filenameglobal =(char *) malloc(100);
+int totallines;
 
 void read_from_file(char *filename) {
 
@@ -19,7 +19,7 @@ void read_from_file(char *filename) {
 		char fname[20];
 		sensor *sen_val ;
 		sen_val = (sensor *) malloc(LINESTRUCT * sizeof(sensor));
-	strcpy(filenameglobal,filename);		
+		strcpy(filenameglobal,filename);		
 		FILE *fptr = NULL;
 		int i = 0,j=0,k=0,k1=0;
 		int total = 0,count=0;
@@ -35,7 +35,11 @@ void read_from_file(char *filename) {
 		strtok(timezone, ",");
 		total = i;
 		printf("\n val of total :%d",total);
+		totallines=total;
 		printf("\n The content of the file %s  are : \n",filename);
+		int len = strlen(filenameglobal);
+   		 filenameglobal[len-4] = '\0';
+		printf("%s\n",strcat(filenameglobal,"_output.csv"));
 		while(j<total)
 			{		
 				char temp2[50] ;
@@ -77,9 +81,42 @@ void read_from_file(char *filename) {
 				}
 				
 	}
+
 	
-void write_to_output_file(){
-printf("'''''''''''''''''in write file function %s'''''''''''''''''",filenameglobal);
+void write_to_output_file(int counter_outof_range[],int size_eliminated,sensor sensor_data[],double fused_output,int size,int group_no,int size_group){
+	FILE *fptr = NULL;
+	int i;
+	//printf("%s",filenameglobal);
+	char fileop[20]="../my_output.csv";
+	
+
+	for(int j=0;j<size_eliminated;j++)
+	printf("%d\n",counter_outof_range[j]);
+	if((group_no-1) == 0){
+		 if((fptr = fopen(filenameglobal, "w"))==NULL) {
+		    printf("Cannot open file.\n");
+  			}
+  	 	fprintf(fptr, "%s %g  \n", "Fused Output = ", fused_output);
+  	 	fprintf(fptr, "%s\n", "Sensor Values =\nTime\tName\tValue");
+  	 	for(i=0;i<size;i++){
+			for(int j=0;j<size_eliminated;j++)
+			if(i!=counter_outof_range[j])		
+  	 		fprintf(fptr, "%s\t%s\t%g\n", sensor_data[i].time,sensor_data[i].sensor_name,sensor_data[i].value);
+		   }
+		}
+
+	else{
+	fptr = fopen(filenameglobal, "a");	
+	 fprintf(fptr, "%s %g  \n", "Fused Output = ", fused_output);
+	 fprintf(fptr, "%s\n ", "Sensor Values =\nTime\tName\tValue");
+	 for(i=0;i<size;i++){
+		for(int j=0;j<size_eliminated;j++)
+			if(i!=counter_outof_range[j])		
+  	 		fprintf(fptr, "%s\t%s\t%g\n", sensor_data[i].time,sensor_data[i].sensor_name,sensor_data[i].value);
+		   }
+	}
+fclose(fptr);
+	//fptr = fopen(filename, "r");
 }
 	
 	

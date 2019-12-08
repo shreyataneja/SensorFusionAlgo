@@ -6,6 +6,12 @@
 #include "../include/sensorstructure.h"
 #include "../include/file_operations.h"
 
+
+int itr,var;
+double *all_fused_outputs = (double *)malloc( (100) * sizeof(double));
+sensor *sensor_final;
+int size_final;
+
 void detect_out_of_range_sensor(double integrated_support_degree[],double sum_integrated_support_degree,sensor sensor_data[],int size,double X_Thresh){
 	int *counter_outof_range = (int *)malloc(size * sizeof(int));
 	int i;
@@ -20,10 +26,10 @@ void detect_out_of_range_sensor(double integrated_support_degree[],double sum_in
 	}
 	for (i=0;i<size_eliminated;i++)
 	printf("eliminated sensors  = %d\n",counter_outof_range[i]);	
-	calc_weight_coefficient(counter_outof_range,integrated_support_degree, sum_integrated_support_degree,sensor_data,size,size_eliminated);
+	calc_weight_coefficient(counter_outof_range,size_eliminated,integrated_support_degree, sum_integrated_support_degree,sensor_data,size);
 } 
 
-void calc_weight_coefficient(int counter_outof_range[],double integrated_support_degree[],double sum_integrated_support_degree,sensor sensor_data[],int size,int size_eliminated){
+void calc_weight_coefficient(int counter_outof_range[],int size_eliminated,double integrated_support_degree[],double sum_integrated_support_degree,sensor sensor_data[],int size){
 int i,k;
 double *weight_coefficient = (double *)malloc(size * sizeof(double));
 for(i=0;i<size;i++)
@@ -35,9 +41,10 @@ for(i=0;i<size;i++)
 	}
 
 }
-valid_fused_output(weight_coefficient, sensor_data,size);
+valid_fused_output(counter_outof_range,size_eliminated,weight_coefficient, sensor_data,size);
 }
-void valid_fused_output(double weight_coefficient[],sensor sensor_data[],int size){
+
+void valid_fused_output(int counter_outof_range[],int size_eliminated,double weight_coefficient[],sensor sensor_data[],int size){
 	int i;
 	double fused_output;
 	for(i=0;i<size;i++)
@@ -45,6 +52,10 @@ void valid_fused_output(double weight_coefficient[],sensor sensor_data[],int siz
 		fused_output += weight_coefficient[i] * sensor_data[i].value;
 	}
 	printf("Fused output = %g\n",fused_output);
-	write_to_output_file();
+		itr++;
+//	printf("%d\n",itr);
+	size_final+=size;
+	write_to_output_file(counter_outof_range,size_eliminated,sensor_data,fused_output,size,itr,size_final);                                       
 }
+
 
