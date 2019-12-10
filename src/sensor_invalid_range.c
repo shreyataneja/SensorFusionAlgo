@@ -1,3 +1,4 @@
+/*detecting and eliminating out of range sensors calculating the weight cofficient for the fused output*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -7,11 +8,7 @@
 #include "../include/file_operations.h"
 
 
-int itr,var;
-double *all_fused_outputs = (double *)malloc( (100) * sizeof(double));
-sensor *sensor_final;
-int size_final;
-
+/*Detect and eliminate incorrect data*/
 void detect_out_of_range_sensor(double integrated_support_degree[],double sum_integrated_support_degree,sensor sensor_data[],int size,double X_Thresh){
 	int *counter_outof_range = (int *)malloc(size * sizeof(int));
 	int i;
@@ -29,6 +26,7 @@ void detect_out_of_range_sensor(double integrated_support_degree[],double sum_in
 	calc_weight_coefficient(counter_outof_range,size_eliminated,integrated_support_degree, sum_integrated_support_degree,sensor_data,size);
 } 
 
+/* Compute the weight coefficient for each non eliminated sensor*/
 void calc_weight_coefficient(int counter_outof_range[],int size_eliminated,double integrated_support_degree[],double sum_integrated_support_degree,sensor sensor_data[],int size){
 int i,k;
 double *weight_coefficient = (double *)malloc(size * sizeof(double));
@@ -44,8 +42,10 @@ for(i=0;i<size;i++)
 valid_fused_output(counter_outof_range,size_eliminated,weight_coefficient, sensor_data,size);
 }
 
+/*Compute the fused output*/
 void valid_fused_output(int counter_outof_range[],int size_eliminated,double weight_coefficient[],sensor sensor_data[],int size){
 	int i;
+	static int itr=0;
 	double fused_output;
 	for(i=0;i<size;i++)
 	{	
@@ -53,9 +53,8 @@ void valid_fused_output(int counter_outof_range[],int size_eliminated,double wei
 	}
 	printf("Fused output = %g\n",fused_output);
 		itr++;
-//	printf("%d\n",itr);
-	size_final+=size;
-	write_to_output_file(counter_outof_range,size_eliminated,sensor_data,fused_output,size,itr,size_final);                                       
+
+	write_to_output_file(counter_outof_range,size_eliminated,sensor_data,fused_output,size,itr);                                       
 }
 
 

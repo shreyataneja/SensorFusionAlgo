@@ -1,3 +1,4 @@
+/*includes all the functions to calculate the Sensor Fusion Algorithm.*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,14 +12,12 @@
 #include "../include/fusion_algorithm.h"
 #include "../include/sensor_invalid_range.h"
 
-void support_degree(sensor sensor_data[],int size)
+void support_degree(sensor sensor_data[],int size) 			/*This function is to calculate the Support Degree Matrix*/
 {
-int i,j;
-
-    //initialize 2-D array for support degree matrix
-	double **degreematrix ;
+int i,j;    														
+	double **degreematrix ;									/*initialize 2-D array to deduce the support degree matrix*/
 	degreematrix = (double **)malloc(sizeof(double *) * size); 
-//	 double degreematrix[size][size] ;
+
     for (i=0; i<size; i++) 
          degreematrix[i] = (double *)malloc( sizeof(double) * size); 
 
@@ -27,9 +26,9 @@ int i,j;
         for (j=0; j< size; j++)
         {
             double d =abs(sensor_data[i].value - sensor_data[j].value);
-        //   printf(" d is %lf\n",d);
+       
             degreematrix[i][j] = exp(-d);
-        //   printf("i:%d j:%d degreematrix:%lf\n",i,j,degreematrix[i][j]);
+       
         }
     }
    eign_value_vector_generation(degreematrix,sensor_data,size);
@@ -37,8 +36,8 @@ int i,j;
  }
    
    
-   
-void eign_value_vector_generation(double **degreematrix,sensor sensor_data[], int size)
+/*This function is to calculate the eigen values and eigen vectors from Support Degree Matrix*/   
+void eign_value_vector_generation(double **degreematrix,sensor sensor_data[], int size)	
 {	int sizeforarray = size*size;
 	double *data=(double *)malloc(sizeforarray * sizeof(double));
 	int i=0 , j=0 , k=0;
@@ -46,10 +45,9 @@ void eign_value_vector_generation(double **degreematrix,sensor sensor_data[], in
 	for(i = 0; i < size;i++)
     {
         for (j=0; j< size; j++)
-        { //data[k++]=*((degreematrix+i*size) + j);
+        { 
 		data[k++]= degreematrix[i][j];
-		// printf("data %lf",data[--k]);
-        //   printf("i:%d j:%d degreematrix:%lf\n",i,j,degreematrix[i][j]);
+	
         }
     }
 	gsl_matrix_view m   = gsl_matrix_view_array(data, size, size);
@@ -79,22 +77,19 @@ void eign_value_vector_generation(double **degreematrix,sensor sensor_data[], in
 		   
 			gsl_vector_view evec_i = gsl_matrix_column(evec, i);
 			arr_eigenvalue[i]=eval_i;
-	//	    printf("eigenvalue = %g\n", eval_i);
-	//	printf("eigenvector = \n");
-	//	   gsl_vector_fprintf(stdout,&evec_i.vector, "%g");
 		   for (j = 0; j < size; j++)
 				arr_eigenvector[i][j] = gsl_vector_get(&evec_i.vector,j);
-		//\\ printf("""""""""""""""""""""""""""""""\n%g\n",gsl_vector_get(&evec_i.vector,j)) ;
+	
  }
 
   calc_principal_component (size,arr_eigenvalue,arr_eigenvector,degreematrix,sensor_data);
  
 }
+
+/* Calculate the principal components of the support degree matrix and their eigen vectors.*/
 	void calc_principal_component  (int size,double arr_eigenvalue[],double **arr_eigenvector,double **degreematrix,sensor sensor_data[]){
 		int i,j;
-	//	printf("in function calc_principal_component \n");
 	
-
 		double **principal_component = (double **)malloc(size * sizeof(double *));
 		for (i=0; i<size; i++) 
 			principal_component[i] = (double *)malloc(size * sizeof(double)); 
@@ -106,9 +101,7 @@ void eign_value_vector_generation(double **degreematrix,sensor sensor_data[], in
 					for (j = 0; j < size; j++){
 					
 						principal_component[k][i] += arr_eigenvector [k][j] * degreematrix [i][j];;
-						//printf("\n Eigenvalue= \  %g\t\n",arr_eigenvalue[j]);
-						 //printf("\n EigenVector=    %g\t\n",x);
-					 
+						
 						}
 
 					}
@@ -116,12 +109,13 @@ void eign_value_vector_generation(double **degreematrix,sensor sensor_data[], in
 			for (i = 0;  i < size; i++){
 				for (j = 0; j < size; j++){
 					printf("Principal compnent %d    %d :  %g\n\t",i,j, principal_component[i][j]);
-				//	printf("\n");
+			
 				}
 			}
 		cal_contribution_rate(arr_eigenvalue,principal_component,sensor_data,size);
 }
 
+/*: Calculate the contribution rate of the kth principal component.*/
 void cal_contribution_rate(double arr_eigenvalue[],double ** principal_component,sensor sensor_data[],int size){
 		double *contribution_rate = (double *)malloc( (size) * sizeof(double));
 			double *sum_contribution_rate =  (double *)malloc( (size) * sizeof(double));
@@ -131,10 +125,9 @@ void cal_contribution_rate(double arr_eigenvalue[],double ** principal_component
 				egval_sum = egval_sum + arr_eigenvalue[c];
 			   
 			}
-			//printf("egval_sum final : %g \t\n ",egval_sum);
+			
 			for(r = 0;r<size;r++){
-			// printf(" Eigen Values %g \t\n",arr_eigenvalue[r]);
-			// printf("egval_sum : %g \t\n ",egval_sum);
+			
 			double s = 0;
 			s = arr_eigenvalue[r];
 			contribution_rate[r] =  (s)/(egval_sum);
@@ -150,6 +143,7 @@ void cal_contribution_rate(double arr_eigenvalue[],double ** principal_component
 	cal_integrated_support_degree(contribution_rate,sum_contribution_rate, principal_component,sensor_data, size);
 }
 
+/* Compute the integrated support degree score for all sensors*/
 void cal_integrated_support_degree(double contribution_rate[], double sum_contribution_rate[],double ** principal_component,sensor sensor_data[],int size){
 	double *integrated_support_degree = (double *)malloc( (size) * sizeof(double));
 	double sum_integrated_support_degree;
@@ -189,12 +183,10 @@ double sum;
         sum += calc_integrated_support[j][i];
        
         }
-      // printf(" sum of columns of integrated_support_degree: %lg \t\n", sum);
     	integrated_support_degree[i]=sum;
 	}
    
-      //printf(" sum integrated_support_degree: %lg \t\n", sum_integrated_support_degree);
-    // printf(" mean integrated_support_degree: %lg \t\n", sum_integrated_support_degree/size);
+    
 
  	for(i=0;i<size;i++)
  	 printf(" array of columns of integrated_support_degree: %lg \t\n", 	integrated_support_degree[i]);
@@ -210,7 +202,7 @@ double sum;
 
 }
 
-
+/*Calculate the threshhold from all the sensors*/
 void calc_threshold(double integrated_support_degree[] , double sum_integrated_support_degree,sensor sensor_data[],int size)
 {
  	double X_Thresh ;
