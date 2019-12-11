@@ -4,9 +4,9 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#include "../include/file_operations.h"
-#include "../include/fusion_algorithm.h"
-#include "../include/sensorstructure.h"
+
+#include "../include/fusion_algorithm_support_degree.h"
+
 #define LSIZ 500													/* line size*/
 #define RSIZ 1000													/* number of lines*/
 #define LINESTRUCT 500
@@ -37,10 +37,7 @@ void read_from_file(char *filename) {   							/* read file functions */
 	int len = strlen(filenameglobal);
    	filenameglobal[len-4] = '\0';
 	strcat(filenameglobal,"_output.csv");						/* name the output file as inputfilename_output.csv */
-	time_t t = time(NULL);
-  	struct tm tm = *localtime(&t);
-  	
-  	printf("now: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1,tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+	
 	while(j<total){		
 		char temp2[50] ;
 		strcpy(temp2,line[j]);

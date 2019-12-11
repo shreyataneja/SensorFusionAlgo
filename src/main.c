@@ -3,8 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include "../include/file_operations.h"
-#include "../include/sensor_invalid_range.h"
-#include "../include/sensorstructure.h"
+
 
 int main(int argc, char ** argv) {						
 
