@@ -14,16 +14,17 @@
 char *filenameglobal =(char *) malloc(100);
 
 
-void read_from_file(char *filename) {   							/* read file functions */
+void read_from_file(char *filename){   							/* read file functions */
     char line[RSIZ][LSIZ];
 	char line_temp[RSIZ][LSIZ];
-	char fname[20];
+	char fname[20] ;
 	sensor *sen_val ;
 	sen_val = (sensor *) malloc(LINESTRUCT * sizeof(sensor));
 	strcpy(filenameglobal,filename);		
 	FILE *fptr = NULL;
 	int i = 0,j=0,k=0,k1=0;
 	int total = 0,count=0;
+	int begin, end, count_file = 0;
 
 	fptr = fopen(filename, "r");								/* open file in read mode */
 	while(fgets(line[i], LSIZ, fptr)){
@@ -36,7 +37,33 @@ void read_from_file(char *filename) {   							/* read file functions */
 	total = i;		
 	int len = strlen(filenameglobal);
    	filenameglobal[len-4] = '\0';
-	strcat(filenameglobal,"_output.csv");						/* name the output file as inputfilename_output.csv */
+	for(int i=strlen(filenameglobal)-1;i>0;i--){
+		if(filenameglobal[i]!='/'){
+			fname[j]=filenameglobal[i];
+			j++;
+		}
+		else
+		break;
+	}
+	fname[j]='\0';
+	
+	
+	 while (fname[count_file] != '\0')
+      count_file++;
+
+   end = count_file - 1;
+
+   for (begin = 0; begin < count_file; begin++) {
+      filenameglobal[begin] = fname[end];
+	 
+      end--;
+   }
+
+   filenameglobal[begin] = '\0';
+   char outputfilestart [20]="../results/";
+   strcat(outputfilestart,filenameglobal);
+   strcpy(filenameglobal,outputfilestart);
+	strcat(filenameglobal,"_output.csv");		/* name the output file as inputfilename_output.csv */
 	
 	while(j<total){		
 		char temp2[50] ;
@@ -63,7 +90,6 @@ void read_from_file(char *filename) {   							/* read file functions */
 					strtok(timezone, ",");
 					break;
 				}
-
 			}							
 		support_degree(sen_val,k);
 	}
@@ -77,9 +103,9 @@ void write_to_output_file(int counter_outof_range[],int size_eliminated,sensor s
 	FILE *fptr = NULL;
 	int i;
 	for(int j=0;j<size_eliminated;j++)
-	printf("%d\n",counter_outof_range[j]);
+	
 	if((group_no-1) == 0){												/* when you start writing the output fie */
-		if((fptr = fopen(filenameglobal, "w"))==NULL) {					/*Open the output file in write mode for group 1 of sensors*/	
+		if((fptr = fopen(filenameglobal, "w"))==NULL){					/*Open the output file in write mode for group 1 of sensors*/	
 			printf("Cannot open file.\n");
   		}
   	fprintf(fptr, "%s %g  \n", "Fused Output = ", fused_output);
@@ -91,7 +117,7 @@ void write_to_output_file(int counter_outof_range[],int size_eliminated,sensor s
 			}		  	 		
 		}			
 	}
-	}
+}
 	else{
 		fptr = fopen(filenameglobal, "a");								/*Open the output file in append mode for all other groups of sensors*/	
 		fprintf(fptr, "%s %g  \n", "Fused Output = ", fused_output);

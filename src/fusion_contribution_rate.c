@@ -14,17 +14,14 @@ void cal_contribution_rate(double arr_eigenvalue[],double ** principal_component
 			int r,c;
 			double egval_sum = 0;
 			for(c = 0;c<size;c++){
-				egval_sum = egval_sum + arr_eigenvalue[c];
-			   
-			}
-			
-			for(r = 0;r<size;r++){
-			
+				egval_sum = egval_sum + arr_eigenvalue[c];			   
+			}			
+			for(r = 0;r<size;r++){			
 			double s = 0;
 			s = arr_eigenvalue[r];
 			contribution_rate[r] =  (s)/(egval_sum);
 				printf("contribution_rate\t: %lg\n", contribution_rate[r]);
-		}
+			}
 			double sum=0;
 			for(r = 0;r<size;r++){
 				sum += contribution_rate[r];
