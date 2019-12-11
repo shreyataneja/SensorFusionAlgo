@@ -25,8 +25,9 @@ void read_from_file(char *filename){   							/* read file functions */
 	int i = 0,j=0,k=0,k1=0;
 	int total = 0,count=0;
 	int begin, end, count_file = 0;
-
-	fptr = fopen(filename, "r");								/* open file in read mode */
+	if((fptr = fopen(filename, "r"))==NULL){					/*Open the output file in read mode*/	
+			printf("Cannot open file.\n");
+  		}							
 	while(fgets(line[i], LSIZ, fptr)){
 		line[i][strlen(line[i]) - 1] = '\0';
 		i++;
@@ -37,32 +38,7 @@ void read_from_file(char *filename){   							/* read file functions */
 	total = i;		
 	int len = strlen(filenameglobal);
    	filenameglobal[len-4] = '\0';
-	for(int i=strlen(filenameglobal)-1;i>0;i--){
-		if(filenameglobal[i]!='/'){
-			fname[j]=filenameglobal[i];
-			j++;
-		}
-		else
-		break;
-	}
-	fname[j]='\0';
 	
-	
-	 while (fname[count_file] != '\0')
-      count_file++;
-
-   end = count_file - 1;
-
-   for (begin = 0; begin < count_file; begin++) {
-      filenameglobal[begin] = fname[end];
-	 
-      end--;
-   }
-
-   filenameglobal[begin] = '\0';
-   char outputfilestart [20]="../results/";
-   strcat(outputfilestart,filenameglobal);
-   strcpy(filenameglobal,outputfilestart);
 	strcat(filenameglobal,"_output.csv");		/* name the output file as inputfilename_output.csv */
 	
 	while(j<total){		
@@ -101,7 +77,7 @@ void read_from_file(char *filename){   							/* read file functions */
 	
 void write_to_output_file(int counter_outof_range[],int size_eliminated,sensor sensor_data[],double fused_output,int size,int group_no){	/* function to write results */
 	FILE *fptr = NULL;
-	int i;
+	int i,x;
 	for(int j=0;j<size_eliminated;j++)
 	
 	if((group_no-1) == 0){												/* when you start writing the output fie */
@@ -117,7 +93,12 @@ void write_to_output_file(int counter_outof_range[],int size_eliminated,sensor s
 			}		  	 		
 		}			
 	}
-}
+	fprintf(fptr, "%s\n", "Eliminated Sensors =\nTime,Name,Value");	
+	for(int j=0;j<size_eliminated;j++){	
+			x=counter_outof_range[j];							
+				fprintf(fptr, "%s,%s,%g\n", sensor_data[x].time,sensor_data[x].sensor_name,sensor_data[x].value);	  	 		
+		}
+	}
 	else{
 		fptr = fopen(filenameglobal, "a");								/*Open the output file in append mode for all other groups of sensors*/	
 		fprintf(fptr, "%s %g  \n", "Fused Output = ", fused_output);
@@ -128,6 +109,11 @@ void write_to_output_file(int counter_outof_range[],int size_eliminated,sensor s
 					fprintf(fptr, "%s,%s,%g\n", sensor_data[i].time,sensor_data[i].sensor_name,sensor_data[i].value);  
 				}		  	 		
 			}			
+		}
+		fprintf(fptr, "%s\n", "Eliminated Sensors =\nTime,Name,Value");	
+		for(int j=0;j<size_eliminated;j++){	
+			x=counter_outof_range[j];							
+				fprintf(fptr, "%s,%s,%g\n", sensor_data[x].time,sensor_data[x].sensor_name,sensor_data[x].value);	  	 		
 		}
 	}
 fclose(fptr);
