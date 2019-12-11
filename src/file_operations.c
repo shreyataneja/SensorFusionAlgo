@@ -77,8 +77,8 @@ void read_from_file(char *filename){   							/* read file functions */
 	
 void write_to_output_file(int counter_outof_range[],int size_eliminated,sensor sensor_data[],double fused_output,int size,int group_no){	/* function to write results */
 	FILE *fptr = NULL;
-	int i,x;
-	for(int j=0;j<size_eliminated;j++)
+	int i,j,counter_range=0;
+
 	
 	if((group_no-1) == 0){												/* when you start writing the output fie */
 		if((fptr = fopen(filenameglobal, "w"))==NULL){					/*Open the output file in write mode for group 1 of sensors*/	
@@ -86,35 +86,38 @@ void write_to_output_file(int counter_outof_range[],int size_eliminated,sensor s
   		}
   	fprintf(fptr, "%s %g  \n", "Fused Output = ", fused_output);
   	fprintf(fptr, "%s\n", "Sensor Values =\nTime,Name,Value");
-  	for(i=0;i<size;i++){
-		for(int j=0;j<size_eliminated;j++){								
+  	for(i=0;i<size;i++){					
 			if(i!=counter_outof_range[j]){								
 				fprintf(fptr, "%s,%s,%g\n", sensor_data[i].time,sensor_data[i].sensor_name,sensor_data[i].value);
-			}		  	 		
-		}			
-	}
+			}
+			else
+			j++;		  	 		
+		}
 	fprintf(fptr, "%s\n", "Eliminated Sensors =\nTime,Name,Value");	
 	for(int j=0;j<size_eliminated;j++){	
-			x=counter_outof_range[j];							
-				fprintf(fptr, "%s,%s,%g\n", sensor_data[x].time,sensor_data[x].sensor_name,sensor_data[x].value);	  	 		
+			counter_range=counter_outof_range[j];							
+			fprintf(fptr, "%s,%s,%g\n", sensor_data[counter_range].time,sensor_data[counter_range].sensor_name,sensor_data[counter_range].value);	  	 		
 		}
+					
 	}
 	else{
+		j=0,counter_range=0;
 		fptr = fopen(filenameglobal, "a");								/*Open the output file in append mode for all other groups of sensors*/	
 		fprintf(fptr, "%s %g  \n", "Fused Output = ", fused_output);
 		fprintf(fptr, "%s\n ", "Sensor Values =\nTime,Name,Value");
-		for(i=0;i<size;i++){
-			for(int j=0;j<size_eliminated;j++){
-				if(i!=counter_outof_range[j]){
-					fprintf(fptr, "%s,%s,%g\n", sensor_data[i].time,sensor_data[i].sensor_name,sensor_data[i].value);  
-				}		  	 		
-			}			
+	  	for(i=0;i<size;i++){					
+			if(i!=counter_outof_range[j]){								
+				fprintf(fptr, "%s,%s,%g\n", sensor_data[i].time,sensor_data[i].sensor_name,sensor_data[i].value);
+			}
+			else
+			j++;		  	 		
 		}
 		fprintf(fptr, "%s\n", "Eliminated Sensors =\nTime,Name,Value");	
 		for(int j=0;j<size_eliminated;j++){	
-			x=counter_outof_range[j];							
-				fprintf(fptr, "%s,%s,%g\n", sensor_data[x].time,sensor_data[x].sensor_name,sensor_data[x].value);	  	 		
+			counter_range=counter_outof_range[j];							
+				fprintf(fptr, "%s,%s,%g\n", sensor_data[counter_range].time,sensor_data[counter_range].sensor_name,sensor_data[counter_range].value);	  	 		
 		}
+		
 	}
 fclose(fptr);
 }

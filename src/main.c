@@ -9,7 +9,6 @@ int main(int argc, char ** argv){
         return 1; 
     }  
     char * i_input =  argv[1];						/*initialize filename with parameters passed into main*/
-	printf (" Input file is : %s",i_input  );
 	read_from_file(i_input);
 	return 0;
 }

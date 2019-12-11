@@ -18,11 +18,6 @@
 					for (j = 0; j < size; j++){					
 						principal_component[k][i] += arr_eigenvector [k][j] * degreematrix [i][j];;						
 						}
-				}
-			for (i = 0;  i < size; i++){
-				for (j = 0; j < size; j++){
-					printf("Principal compnent %d    %d :  %g\n\t",i,j, principal_component[i][j]);
-				}
 			}
 		cal_contribution_rate(arr_eigenvalue,principal_component,sensor_data,size);
 }
