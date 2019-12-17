@@ -1,0 +1,26 @@
+Fused Output =  51.6901  
+Sensor Values =
+Time,Name,Value
+21:00,sems1,53.2
+21:00,sems2,52.6
+21:00,sems3,52.7
+21:00,sems4,53.2
+21:00,sems5,52.8
+21:00,sems6,53.3
+21:00,sems8,53.1
+Eliminated Sensors =
+Time,Name,Value
+21:00,sems7,49.7
+Fused Output =  51.6901  
+Sensor Values =
+Time,Name,Value
+ 02:00,sems1,53.2
+02:00,sems2,52.6
+02:00,sems3,52.7
+02:00,sems4,53.2
+02:00,sems5,52.8
+02:00,sems6,53.3
+02:00,sems8,53.1
+Eliminated Sensors =
+Time,Name,Value
+02:00,sems7,49.7
