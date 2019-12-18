@@ -1,0 +1,1 @@
+g++ -o sens Sensor_Ankit.c `gsl-config --cflags --libs`
