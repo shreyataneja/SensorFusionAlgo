@@ -19,6 +19,7 @@
 						principal_component[k][i] += arr_eigenvector [k][j] * degreematrix [i][j];;						
 						}
 			}
+			
 		cal_contribution_rate(arr_eigenvalue,principal_component,sensor_data,size);
 }
 

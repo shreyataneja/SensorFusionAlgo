@@ -8,7 +8,8 @@
 
 /* Compute the integrated support degree score for all sensors*/
 void cal_integrated_support_degree(double *contribution_rate, double *sum_contribution_rate,double ** principal_component,sensor *sensor_data,int size){
-	double *integrated_support_degree = (double *)malloc( (size) * sizeof(double));
+	
+	double integrated_support_degree[size]; 
 	double sum_integrated_support_degree;
 	int counter;
 	int i,j;
@@ -37,7 +38,8 @@ void cal_integrated_support_degree(double *contribution_rate, double *sum_contri
 	} 
  	for(i=0;i<size;i++){
  	 	sum_integrated_support_degree +=integrated_support_degree[i];
-	}	  	    
+	}
+ 	
 	calc_threshold(integrated_support_degree,sum_integrated_support_degree,sensor_data,size);
 }
 

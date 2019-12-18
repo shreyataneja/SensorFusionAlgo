@@ -6,7 +6,7 @@
  
 #include "../include/fusion_eign_value_vector_generation.h"
 
-void support_degree(sensor sensor_data[],int size){ 			/*This function is to calculate the Support Degree Matrix*/
+void support_degree(sensor sensor_data[],int size){			/*This function is to calculate the Support Degree Matrix*/
 	int i,j;    														
 	double **degreematrix ;									/*initialize 2-D array to deduce the support degree matrix*/
 	degreematrix = (double **)malloc(sizeof(double *) * size); 
