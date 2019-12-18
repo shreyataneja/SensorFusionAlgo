@@ -6,7 +6,14 @@
  
 #include "../include/fusion_threshold.h"
 
-/* Compute the integrated support degree score for all sensors*/
+/** 
+	* Compute the integrated support degree score for all sensors
+	* @param contribution_rate
+	* @param sum_contribution_rate
+	* @param principal_component
+	* @param sensor_data
+	* @param size
+*/
 void cal_integrated_support_degree(double *contribution_rate, double *sum_contribution_rate,double ** principal_component,sensor *sensor_data,int size){
 	
 	double integrated_support_degree[size]; 

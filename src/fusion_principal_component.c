@@ -5,7 +5,14 @@
  
 #include "../include/fusion_contribution_rate.h"
 
-/* Calculate the principal components of the support degree matrix and their eigen vectors.*/
+/**
+	* Calculate the principal components of the support degree matrix and their eigen vectors.
+	* @param size
+	* @param arr_eigenvalue
+	* @param arr_eigenvector
+	* @param degreematrix
+	* @param sensor_data
+*/
 	void calc_principal_component  (int size,double *arr_eigenvalue,double **arr_eigenvector,double **degreematrix,sensor *sensor_data){
 		int i,j;	
 		double **principal_component = (double **)malloc(size * sizeof(double *));

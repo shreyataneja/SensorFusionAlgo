@@ -10,7 +10,14 @@
  
 #include "../include/fusion_principal_component.h"
   
-/*This function is to calculate the eigen values and eigen vectors from Support Degree Matrix*/   
+/** 
+	* This function is to calculate the eigen values and eigen vectors from Support Degree Matrix
+	* @param degreematrix
+	* @param sensor_data
+	* @param size
+	* @return type void
+	
+*/   
 void eign_value_vector_generation(double **degreematrix,sensor sensor_data[], int size){
 	int sizeforarray = size*size;
 	double *data=(double *)malloc(sizeforarray * sizeof(double));

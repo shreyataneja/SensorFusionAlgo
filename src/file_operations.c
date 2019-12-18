@@ -1,4 +1,3 @@
-/* includes all the file operations for reading and writting the file */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,15 +5,25 @@
 #include <time.h>
 
 #include "../include/fusion_algorithm_support_degree.h"
-
-#define LSIZ 500													/* line size*/
-#define RSIZ 1000													/* number of lines*/
+/** 
+	*line size
+	*number of lines
+*/
+#define LSIZ 500													
+#define RSIZ 1000													
 #define LINESTRUCT 500
 
+/** 
+	* includes all the file operations for reading and writting the file
+*/
+
 char *filenameglobal =(char *) malloc(100);
+/**
+	* read file functions 
+*/
 
 
-void read_from_file(char *filename){   							/* read file functions */
+void read_from_file(char *filename){   							
     char line[RSIZ][LSIZ];
 	char line_temp[RSIZ][LSIZ];
 	char fname[20] ;
@@ -25,7 +34,11 @@ void read_from_file(char *filename){   							/* read file functions */
 	int i = 0,j=0,k=0,k1=0;
 	int total = 0,count=0;
 	int begin, end, count_file = 0;
-	if((fptr = fopen(filename, "r"))==NULL){					/*Open the output file in read mode*/	
+	/**
+		* Open the output file in read mode
+	*/	
+	
+	if((fptr = fopen(filename, "r"))==NULL){					
 			printf("Cannot open file.\n");
   		}							
 	while(fgets(line[i], LSIZ, fptr)){
@@ -38,8 +51,11 @@ void read_from_file(char *filename){   							/* read file functions */
 	total = i;		
 	int len = strlen(filenameglobal);
    	filenameglobal[len-4] = '\0';
+	/**
+		* name the output file as inputfilename_output.csv 
+	*/
 	
-	strcat(filenameglobal,"_output.csv");		/* name the output file as inputfilename_output.csv */
+	strcat(filenameglobal,"_output.csv");		
 	
 	while(j<total){		
 		char temp2[50] ;
@@ -51,7 +67,10 @@ void read_from_file(char *filename){   							/* read file functions */
 				char temp[50] ;
 				strcpy(temp,line[i]);
 				strtok(temp, ",");
-				if (strcmp (timezone,temp)==0){					/* reading the files and store data in sensor structure for 1 group of sensor at a time*/
+				if (strcmp (timezone,temp)==0){
+					/**
+						* reading the files and store data in sensor structure for 1 group of sensor at a time
+					*/
 					char* token = strtok(line[i], ",");     
 					strcpy(sen_val[k].time, token) ;
 					token = strtok(NULL, ",") ;
@@ -75,13 +94,29 @@ void read_from_file(char *filename){   							/* read file functions */
 }
 
 	
-void write_to_output_file(int counter_outof_range[],int size_eliminated,sensor sensor_data[],double fused_output,int size,int group_no){	/* function to write results */
+void write_to_output_file(int counter_outof_range[],int size_eliminated,sensor sensor_data[],double fused_output,int size,int group_no){	
+	/**
+		* function to write results 
+		* @param counter_outof_range
+		* @param size_eliminated
+		* @param sensor_data
+		* @param fused_output
+		* @param size
+		* @param group_no
+		* @return type void
+	*/
 	FILE *fptr = NULL;
 	int i,j,counter_range=0;
 
 	
-	if((group_no-1) == 0){												/* when you start writing the output fie */
-		if((fptr = fopen(filenameglobal, "w"))==NULL){					/*Open the output file in write mode for group 1 of sensors*/	
+	if((group_no-1) == 0){
+			/**
+				* when you start writing the output fie
+			*/
+		if((fptr = fopen(filenameglobal, "w"))==NULL){
+			/** 
+				* Open the output file in write mode for group 1 of sensors
+			*/	
 			printf("Cannot open file.\n");
   		}
   	fprintf(fptr, "%s %g  \n", "Fused Output = ", fused_output);
@@ -102,7 +137,10 @@ void write_to_output_file(int counter_outof_range[],int size_eliminated,sensor s
 	}
 	else{
 		j=0,counter_range=0;
-		fptr = fopen(filenameglobal, "a");								/*Open the output file in append mode for all other groups of sensors*/	
+		fptr = fopen(filenameglobal, "a");								
+		/** 
+			* Open the output file in append mode for all other groups of sensors
+		*/	
 		fprintf(fptr, "%s %g  \n", "Fused Output = ", fused_output);
 		fprintf(fptr, "%s\n ", "Sensor Values =\nTime,Name,Value");
 	  	for(i=0;i<size;i++){					

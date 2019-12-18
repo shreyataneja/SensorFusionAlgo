@@ -7,7 +7,14 @@
 #include "../include/fusion_integrated_sd.h"
 
  
-/*Calculate the contribution rate of the kth principal component.*/
+/**
+	* Calculate the contribution rate of the kth principal component.
+	* @param arr_eigenvalue
+	* @param principal_component
+	* @param sensor_data
+	* @param size
+	* @return type void
+*/
 void cal_contribution_rate(double *arr_eigenvalue,double ** principal_component,sensor *sensor_data,int size){
 		double *contribution_rate = (double *)malloc( (size) * sizeof(double));
 			double *sum_contribution_rate =  (double *)malloc( (size) * sizeof(double));
