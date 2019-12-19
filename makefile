@@ -54,4 +54,5 @@ all: tests
 
 #CLEAN COMMANDS
 clean: 
+
 	rm -f bin/* build/*
