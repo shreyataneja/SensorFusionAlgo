@@ -14,7 +14,7 @@
 */
 
 void valid_fused_output(int *counter_outof_range,int size_eliminated,double *weight_coefficient,sensor *sensor_data,int size){
-	int i;
+	int i,r;
 	static int itr=0;
 	double fused_output;
 	for(i=0;i<size;i++){	

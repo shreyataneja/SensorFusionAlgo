@@ -17,6 +17,7 @@
 	* @param size
 	* @return type: Void
 */
+
 void calc_weight_coefficient(int counter_outof_range[],int size_eliminated,double integrated_support_degree[],double sum_integrated_support_degree,sensor sensor_data[],int size){
 	int i,k;
 	double *weight_coefficient = (double *)malloc(size * sizeof(double));

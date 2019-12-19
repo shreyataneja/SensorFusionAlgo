@@ -46,7 +46,6 @@ void cal_integrated_support_degree(double *contribution_rate, double *sum_contri
  	for(i=0;i<size;i++){
  	 	sum_integrated_support_degree +=integrated_support_degree[i];
 	}
- 	
 	calc_threshold(integrated_support_degree,sum_integrated_support_degree,sensor_data,size);
 }
 

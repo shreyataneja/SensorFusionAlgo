@@ -7,7 +7,7 @@ GSL = `gsl-config --cflags --libs`
 bin_folder := $(shell mkdir -p bin)
 build_folder := $(shell mkdir -p build)
 
-#TARGET TO COMPILE ALL THE TESTS TOGETHER (NOT SIMULATOR)
+#TARGET TO COMPILE ALL THE TESTS TOGETHER 
 
 main.o: src/main.c
 	$(CC) -g -c $(MCMODEL)  src/main.c -o build/main.o
@@ -49,7 +49,7 @@ tests: main.o file_operations.o fusion_algorithm_support_degree.o fusion_contrib
 		
 
 	
-#TARGET TO COMPILE EVERYTHING (ABP SIMULATOR + TESTS TOGETHER)
+#TARGET TO COMPILE EVERYTHING
 all: tests
 
 #CLEAN COMMANDS
