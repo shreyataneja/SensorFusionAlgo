@@ -18,18 +18,18 @@ Git clone https://github.com/shreyataneja/SensorFusionAlgo.git
 ## *Compiling and Running the Sensor Fusion Algorithm Software*
 To compile and run the tests for the software, follow these steps:
 1.	Compile the project
-	i.	Open the folder containing the cloned or downloaded software from git.
-	ii.	Open Bash Prompt inside the folder i.e. Right Click + ”Bash Prompt here”.
-	iii.	To compile the project, type in the bash prompt :
+	1.	Open the folder containing the cloned or downloaded software from git.
+	2.	Open Bash Prompt inside the folder i.e. Right Click + ”Bash Prompt here”.
+	3.	To compile the project, type in the bash prompt :
 		Make clean; make all
 
 2.	Run the software and test with input file of your choice. Place the input file in the inputs_and_results folder.
-	i.	From the previous command, you now have new folders created , i.e. bin and build , the tests will run in the bin folder . 
+	1.	From the previous command, you now have new folders created , i.e. bin and build , the tests will run in the bin folder . 
 	Type: cd bin
-	ii.	To run test with input file of your choice, for example, input_sensorfusion.csv, type:
+	2.	To run test with input file of your choice, for example, input_sensorfusion.csv, type:
 	./MAIN.exe ../inputs_and_results/test_input_1.csv
-	iii.	To run the software with different input files, simply create a .csv file with desired inputs and replace in command with new file name
-	iv.	The output file will be created in same folder as of the input file in the following format: inputsfolder/inputfilename_output.csv 
+	3.	To run the software with different input files, simply create a .csv file with desired inputs and replace in command with new file name
+	4.	The output file will be created in same folder as of the input file in the following format: inputsfolder/inputfilename_output.csv 
 
 ## Authors
 
